@@ -174,11 +174,11 @@ int j = 9;
 
  //21.task
  //int x = 2;
- // double d = 5/(x–2); 0 not legal divison and "+" instead of "-"
+ // double d = 5/(x–2); 0 not legal divison and "+" instead of "-" and remove "()"
  // if (d==2*x+0.5) cout << "Success!\n"; 
 
  double x21 = 2;
- double d21 = 5/(x21+2);
+ double d21 = 5/x21+2;
   if (d21==2*x21+0.5) cout << "21.Success!\n";
 
   //22.task
@@ -203,7 +203,7 @@ int j = 9;
  //24.task
  //int x = 4
  // double d = 5/(x–2);
- // if (d=2*x+0.5) cout << "Success!\n";
+ // if (d=2*x+0.5) cout << "Success!\n"; "/" instead of "*"
 
 
 int x24 = 4;
@@ -214,7 +214,7 @@ int x24 = 4;
  //25.task
  //cin << "Success!\n"; "cout" isntead of "cin"
 
-  cout<< "25.Success!\n"
+  cout<< "25.Success!\n";
 
  keep_window_open();
  return 0;
