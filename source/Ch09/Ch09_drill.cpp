@@ -66,9 +66,6 @@ void Date::add_day(int n)
     if (d > 31) { ++n_m; d -= 31; }     // Day overflow
     if (d < 1)  { --n_m; d += 31; }     // Day underflow
  
-    // Month type takes care of itself on overflows, but we loose track to 
-    // modify year if it happens. We must check it before actually operate
-    // on m.
     if (Month::dec < (int(m)+n_m)) ++n_y;
     if (Month::jan > (int(m)+n_m)) --n_y;
     m += n_m;  
