@@ -147,5 +147,5 @@ catch (UDChrono::Date::Invalid) {
 catch(exception& e)
 {
 	cout<< e.what() << endl;
-	return 3;
+	return 2;
 }
