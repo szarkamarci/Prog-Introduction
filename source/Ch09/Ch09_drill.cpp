@@ -32,8 +32,8 @@ public:
 	class Invalid{};
 	bool is_valid();
 	Date(int y, Month m, int d): y(y), m(m), d(d) { if (!is_valid()) throw Invalid {}; }
-	int get_y() const { return y;}
 	Month get_m() const { return m;}
+	int get_y() const { return y;}
 	int get_d() const { return d;}
 
 	void add_day(int n);
@@ -56,26 +56,27 @@ bool Date::is_valid(){
 
 void Date::add_day(int n)
 {
-	//in case every month has 31 days
-	int n_d = n % 31;
-	int n_m= (n/31) % 12;
-	int n_y= n/(31*12);
+    // in case every month is 31 days
+    int n_d = n % 31;          
+    int n_m = (n / 31) % 12;   
+    int n_y = n / (31*12);     
 
-	y += n_y;
-	m += n_m;
-	d += n_d;
+    d += n_d;
+    
+    if (d > 31) { ++n_m; d -= 31; }     // Day overflow
+    if (d < 1)  { --n_m; d += 31; }     // Day underflow
+ 
+    // Month type takes care of itself on overflows, but we loose track to 
+    // modify year if it happens. We must check it before actually operate
+    // on m.
+    if (Month::dec < (int(m)+n_m)) ++n_y;
+    if (Month::jan > (int(m)+n_m)) --n_y;
+    m += n_m;  
+    y += n_y;
 
-	//Must check for negative numbers
-	if(d > 31) { ++n_m; d -= 31;}
-	if(d < 1 ) { --n_m; d += 31;}
-	if(Month::dec < (int(m)+n_m)) { n_y++;}
-	if(Month::jan > (int(m)+n_m)) { n_y--;}
+ }
 
-	m += n_m;
-	y += n_y; 
-}
-
-/*void add_month(int n)
+void Date::add_month(int n)
 {
 	int n_m = n % 12;
 	int n_y = n / 12;
@@ -88,10 +89,10 @@ void Date::add_day(int n)
 	
 }
 
-void add_year(int n)
+void Date::add_year(int n)
 {
 	y += n;
-}*/
+}
 
 ostream& operator<<(ostream& os, Date& d)
 {
@@ -110,16 +111,31 @@ try
  using UDChrono::Date;
  using UDChrono::Month;
 
+	Date test{2000, Month::aug, 14};
 
-	Date today{2002,Month::dec,17};
+	test.add_day(-7);
 
+	cout<< "2000.8.7? " << '\t'<< test << '\n';
 
-	cout<< today <<endl;
+	test.add_day(7);
 
-	today.add_day(16);
+	cout<< "2000.8.14? " << '\t'<< test << '\n';
 
-	cout<< today;
+	Date test2{2000, Month::aug, 14};
 
+	test2.add_month(25);
+
+	cout<< "2002.9.14? " << '\t'<< test2 << '\n';
+
+	test2.add_month(-25);
+
+	test2.add_year(5);
+
+	cout<< "2005.8.14? " << '\t'<< test2 << '\n';
+
+	test2.add_year(-5);
+
+	cout<< "2000.8.14? " << '\t'<< test2 << '\n';
 
 
 return 0;
